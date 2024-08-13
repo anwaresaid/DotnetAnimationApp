@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas, faHouse, faStar } from "@fortawesome/free-solid-svg-icons";
 import ThreejsImage from "./components/ThreejsImage.jsx";
 import Swip from "./components/swipe/Swip.jsx";
+import Flavors from "./components/flavors/Flavors.jsx";
+import RecommendedProducts from "./components/flavors/RecommendedProducts.jsx";
 
 function App() {
   // const [scope, animate] = useAnimate();
@@ -285,6 +287,8 @@ function App() {
               className="img-candy-container rounded"
             />
           </div>
+          <Flavors />
+          <RecommendedProducts />
         </div>
       </motion.div>
 
