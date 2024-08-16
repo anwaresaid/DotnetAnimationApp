@@ -10,6 +10,15 @@ import ThreejsImage from "./components/ThreejsImage.jsx";
 import Swip from "./components/swipe/Swip.jsx";
 import Flavors from "./components/flavors/Flavors.jsx";
 import RecommendedProducts from "./components/flavors/RecommendedProducts.jsx";
+import CurvedText from "./components/curved/CurvedText.jsx";
+import { Canvas } from "@react-three/fiber";
+import CandyLogo from "./components/canvas/ThreeLogo.jsx";
+import {
+  OrbitControls,
+  Scroll,
+  ScrollControls,
+  Stars,
+} from "@react-three/drei";
 
 function App() {
   // const [scope, animate] = useAnimate();
@@ -19,6 +28,9 @@ function App() {
   const isInView = useInView(ref);
   const isInViewThreeD = useInView(threeDRef);
   const isInViewImg = useInView(imgRef);
+  const bgColor = ({ gl }) => {
+    gl.setClearColor("#fef7e6");
+  };
 
   const controlsImg = useAnimation();
   const controlsThreeD = useAnimation();
@@ -183,114 +195,124 @@ function App() {
 
   return (
     <div className="relative" ref={ref}>
-      <motion.div
-      // variants={{
-      //   hidden: { opacity: 0, y: 75 },
-      //   visible: { opacity: 1, y: 0 },
-      // }}
-      // initial="hidden"
-      // animate="visible"
-      // transition={{ duration: 1.5, delay: 0.25 }}
-      >
-        <div className="h-screen  font-spaceGrotesk z-10  flex-col gap-10 tracking-tight">
-          <div
-            id="title-container"
-            className=" fixed align-center h-screen bg-gray-50 justify-center z-10 font-spaceGrotesk w-full flex-col gap-10"
-          >
-            <h1 id="title-1" className="text-rose-600 text-center">
-              Sweeten your day with a burst of fruity flavor and wholesome
-              goodness.
-            </h1>
-            <h1 id="title-2" className="text-yellow-600 text-center">
-              burst of fruity flavor and
-            </h1>
-            <h1 id="title-3" className="text-green-600 text-center">
-              wholesome goodness.
-            </h1>
-          </div>
-          <div id="first-container" className="h-screen">
-            {/* <div className=" flex flex-row justify-around">
+      <div className=" font-spaceGrotesk z-10  flex-col gap-10 tracking-tight">
+        <div
+          id="title-container"
+          className=" fixed align-center h-screen bg-gray-50 justify-center z-10 font-spaceGrotesk w-full flex-col gap-10"
+        >
+          <h1 id="title-1" className="text-rose-600 text-center">
+            Sweeten your day with a burst of fruity flavor and wholesome
+            goodness.
+          </h1>
+          <h1 id="title-2" className="text-yellow-600 text-center">
+            burst of fruity flavor and
+          </h1>
+          <h1 id="title-3" className="text-green-600 text-center">
+            wholesome goodness.
+          </h1>
+        </div>
+        {/* <div className=" flex flex-row justify-around">
               <div id="square" className="w-24 h-24 z-20 bg-violet-500" />
               <div
                 id="circle"
                 className="w-24 h-24 z-20 rounded-full bg-violet-500"
               />
             </div> */}
-            <h1 id="title-org" className=" text-center pt-10 pb-20 ">
-              FRUCTEES
-            </h1>
-            {/* <FontAwesomeIcon icon={faHouse} className="text-violet-500" /> */}
-            <div id="canvas-container" className="mb-10">
-              <ThreejsImage />
-            </div>
-            <div id="stars-left">
-              {elements.map((element) => (
-                <FontAwesomeIcon
-                  key={element.id}
-                  icon={faStar}
-                  id={`left-${element.id}`}
-                  style={{
-                    position: "absolute",
-                    bottom: `${element.y}vh`,
-                    left: `${element.x}vw`,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                  className="star text-yellow-300"
-                />
-              ))}
-            </div>
-            {/* <FontAwesomeIcon
-              id="star"
-              icon={faStar}
-              className="text-violet-500"
-            /> */}
-            <div id="stars-right">
-              {elements.map((element) => (
-                <FontAwesomeIcon
-                  key={element.id}
-                  id={element.id}
-                  icon={faStar}
-                  style={{
-                    position: "absolute",
-                    bottom: `${element.y}vh`,
-                    right: `${element.x}vw`,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                  className="star text-yellow-300"
-                />
-              ))}
-            </div>
-          </div>
-          <div className="swiper-outer-container">
-            <Swip />
-          </div>
-          <div
-            id="second-container"
-            className=" flex flex-row bg-yellow-300  justify-start z-10 w-full "
+
+        {/* <FontAwesomeIcon icon={faHouse} className="text-violet-500" /> */}
+        <div className="w-screen h-screen">
+          <Canvas
+            id="canvas"
+            camera={{ position: [20, 3, 5], fov: 25 }}
+            onCreated={bgColor}
           >
-            <motion.img
-              src={wormCandies}
-              animate={controlsImg}
-              ref={imgRef}
-              initial="hidden"
-              variants={imgLeftVariants}
-              alt="worm-candy"
-              className="img-candy-container rounded"
-            />
-            <motion.img
-              src={candyShapes}
-              animate={controlsImg}
-              ref={imgRef}
-              initial="hidden"
-              variants={imgRightVariants}
-              alt="candy"
-              className="img-candy-container rounded"
-            />
-          </div>
-          <Flavors />
-          <RecommendedProducts />
+            <ScrollControls damping={0.2} pages={10}>
+              <ambientLight intensity={2} />
+              <CandyLogo />
+
+              <Scroll html style={{ width: "100%", margineTop: "300vh" }}>
+                <div id="first-container" className="h-screen w-screen">
+                  <h1 id="title-org" className=" text-center pt-10 pb-20 ">
+                    FRUCTEES
+                  </h1>
+                </div>
+
+                {/* 
+      <pointLight intesity={2} color={0x61dbfb} position={[0, 5, 5]} />
+      <spotLight intesity={1} color={0x61dbfb} position={[-20, 50, 10]} /> */}
+                {/* <OrbitControls /> */}
+
+                {/* <div id="stars-left">
+                  {elements.map((element) => (
+                    <FontAwesomeIcon
+                      key={element.id}
+                      icon={faStar}
+                      id={`left-${element.id}`}
+                      style={{
+                        position: "absolute",
+                        bottom: `${element.y}vh`,
+                        left: `${element.x}vw`,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      className="star text-yellow-300"
+                    />
+                  ))}
+                </div>
+                <div id="stars-right">
+                  {elements.map((element) => (
+                    <FontAwesomeIcon
+                      key={element.id}
+                      id={element.id}
+                      icon={faStar}
+                      style={{
+                        position: "absolute",
+                        bottom: `${element.y}vh`,
+                        right: `${element.x}vw`,
+                        transform: "translate(-50%, -50%)",
+                      }}
+                      className="star text-yellow-300"
+                    />
+                  ))}
+                </div> */}
+
+                <div className="swiper-outer-container">
+                  <Swip />
+                </div>
+
+                <div
+                  id="second-container"
+                  className=" flex flex-row bg-yellow-300  justify-start  w-full "
+                >
+                  <motion.img
+                    src={wormCandies}
+                    animate={controlsImg}
+                    ref={imgRef}
+                    initial="hidden"
+                    variants={imgLeftVariants}
+                    alt="worm-candy"
+                    className="img-candy-container rounded"
+                  />
+                  <motion.img
+                    src={candyShapes}
+                    animate={controlsImg}
+                    ref={imgRef}
+                    initial="hidden"
+                    variants={imgRightVariants}
+                    alt="candy"
+                    className="img-candy-container rounded"
+                  />
+                </div>
+
+                <Flavors />
+
+                <RecommendedProducts />
+
+                <CurvedText />
+              </Scroll>
+            </ScrollControls>
+          </Canvas>
         </div>
-      </motion.div>
+      </div>
 
       <div
         id="intro-slider"

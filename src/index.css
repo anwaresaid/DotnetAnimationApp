@@ -9,6 +9,7 @@ html,
 body {
   position: relative;
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -28,7 +29,7 @@ body {
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fef7e6;
+  background: #0e805d;
 
   /* Center slide text vertically */
   display: flex;
