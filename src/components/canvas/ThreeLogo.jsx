@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useGLTF, useAnimations, useScroll } from "@react-three/drei";
 import gsap from "gsap";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 const actionNames = ["Run1"];
 
@@ -14,42 +14,53 @@ function ThreeLogo() {
     candyLogo.scene
   );
   const scroll = useScroll();
+  const threeJsCheck = useThree();
   const tl = useRef();
   useEffect(() => {
+    console.log("useThree", threeJsCheck);
+    console.log("scroll", scroll);
     actionNames.forEach((clip) => {
       // const action = animations.actions[clip];
       // action.play();
-      actions["Run1"].play().paused = true;
     });
-  }, []);
+  }, [scroll]);
 
   useFrame(() => {
-    actions["Run1"].time = actions["Run1"].getClip().duration * scroll.offset;
-    tl.current.seek(scroll.offset * tl.current.duration());
+    actions["Run1"].play();
+    // console.log("scroll-------", scroll.offset * tl.current.duration());
+    tl.current.seek(scroll.offset * tl.current.duration() * 1.5);
   });
 
   useLayoutEffect(() => {
     tl.current = gsap.timeline();
     tl.current
-      .to(
-        ref.current.position,
-        {
-          duration: 2,
-          y: -2.3 * (3 - 1),
-        },
-        0
-      )
       .from(
         ref.current.rotation,
         {
-          duration: 2,
+          duration: 0.2,
           y: Math.PI / 2,
         },
-        0.5
+        0
       )
       .to(ref.current.position, {
-        duration: 5,
-        z: 10,
+        duration: 0.2,
+        z: 5,
+      })
+      .to(ref.current.rotation, {
+        duration: 0.2,
+        y: Math.PI,
+      })
+      .to(ref.current.position, {
+        duration: 0.2,
+        z: 0,
+      })
+      .to(ref.current.rotation, {
+        duration: 0.2,
+        y: Math.PI / 2,
+      })
+      .to(ref.current.position, {
+        opacity: 0,
+        duration: 0.2,
       });
   }, []);
   return (

@@ -116,6 +116,7 @@ img {
 
 .swiper-outer-container {
   height: 90vh;
+  margin-top: 900vh;
 }
 
 .flavors-container {
@@ -126,9 +127,16 @@ img {
   height: 90vh;
 }
 
-.flavors-letter {
-  display: inline-block;
-  animation: animate-letters 2s linear infinite;
+.inner-title-container {
+  width: 50%;
+}
+.intro-title {
+  display: flex;
+  font: 300 normal clamp(65px, 16.2vw, 317px) / 0.85 "Neue Montreal 2020";
+  width: 300px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes animate-letters {
@@ -159,6 +167,7 @@ img {
   font-family: "Neue Montreal 2020", sans-serif;
   font-size: 40px;
 }
+
 /* -1850 to -100 x  0 to 300 y*/
 
 .flaver-description {

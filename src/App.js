@@ -19,15 +19,16 @@ import {
   ScrollControls,
   Stars,
 } from "@react-three/drei";
+import ColoredIntro from "./components/intro-colored/ColoredIntro.jsx";
 
 function App() {
   // const [scope, animate] = useAnimate();
   const ref = useRef(null);
-  const imgRef = useRef();
+  const imgFirstRef = useRef();
   const threeDRef = useRef();
   const isInView = useInView(ref);
   const isInViewThreeD = useInView(threeDRef);
-  const isInViewImg = useInView(imgRef);
+  const isInViewImg = useInView(imgFirstRef, { amount: 0.5, once: true });
   const bgColor = ({ gl }) => {
     gl.setClearColor("#fef7e6");
   };
@@ -41,27 +42,27 @@ function App() {
   const imgLeftVariants = {
     visible: {
       opacity: 1,
-      scale: 1,
       x: 0,
       y: 0,
       transition: {
+        ease: [0.6, 0.01, -0.05, 0.95],
         duration: 1,
         stiffness: 100,
       },
     },
     hidden: {
-      x: 50,
       opacity: 0,
+      x: 50,
       y: 50,
     },
   };
   const imgRightVariants = {
     visible: {
       opacity: 1,
-      scale: 1,
       x: 0,
       y: 0,
       transition: {
+        ease: [0.6, 0.01, -0.05, 0.95],
         duration: 1,
         stiffness: 100,
       },
@@ -74,7 +75,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("here", isInViewImg);
     if (isInViewImg) {
       controlsImg.start("visible");
     } else {
@@ -200,7 +200,7 @@ function App() {
           id="title-container"
           className=" fixed align-center h-screen bg-gray-50 justify-center z-10 font-spaceGrotesk w-full flex-col gap-10"
         >
-          <h1 id="title-1" className="text-rose-600 text-center">
+          {/* <h1 id="title-1" className="text-rose-600 text-center">
             Sweeten your day with a burst of fruity flavor and wholesome
             goodness.
           </h1>
@@ -209,7 +209,10 @@ function App() {
           </h1>
           <h1 id="title-3" className="text-green-600 text-center">
             wholesome goodness.
-          </h1>
+          </h1> */}
+          <section>
+            <ColoredIntro title={"INFUSED OF BIO ENERGY"} />
+          </section>
         </div>
         {/* <div className=" flex flex-row justify-around">
               <div id="square" className="w-24 h-24 z-20 bg-violet-500" />
@@ -226,12 +229,11 @@ function App() {
             camera={{ position: [20, 3, 5], fov: 25 }}
             onCreated={bgColor}
           >
-            <ScrollControls damping={0.2} pages={10}>
+            <ScrollControls damping={0.2} pages={15}>
               <ambientLight intensity={2} />
               <CandyLogo />
-
-              <Scroll html style={{ width: "100%", margineTop: "300vh" }}>
-                <div id="first-container" className="h-screen w-screen">
+              <Scroll html style={{ width: "100%" }}>
+                <div id="first-container" className="h-screen w-screen ">
                   <h1 id="title-org" className=" text-center pt-10 pb-20 ">
                     FRUCTEES
                   </h1>
@@ -286,24 +288,27 @@ function App() {
                   <motion.img
                     src={wormCandies}
                     animate={controlsImg}
-                    ref={imgRef}
                     initial="hidden"
-                    variants={imgLeftVariants}
+                    ref={imgFirstRef}
                     alt="worm-candy"
                     className="img-candy-container rounded"
                   />
                   <motion.img
                     src={candyShapes}
                     animate={controlsImg}
-                    ref={imgRef}
                     initial="hidden"
-                    variants={imgRightVariants}
                     alt="candy"
                     className="img-candy-container rounded"
                   />
                 </div>
 
-                <Flavors />
+                <Flavors
+                  title={"FLAVORS"}
+                  text={
+                    "FRESH, FRUITY, SPARKLING, BEAUTIFUL COLOURS, AWAKEN YOUR TASTE BUDS."
+                  }
+                  sub={"Recommended Products"}
+                />
 
                 <RecommendedProducts />
 
